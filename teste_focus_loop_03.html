@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Focus Loop - Protótipo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Variáveis de cores para o Toggle de Tema */
+        :root {
+            --bg-app: #f3f4f6;
+            --bg-card: #ffffff;
+            --text-main: #1f2937;
+            --border: #e5e7eb;
+        }
+        .dark-mode {
+            --bg-app: #111827;
+            --bg-card: #1f2937;
+            --text-main: #f9fafb;
+            --border: #374151;
+        }
+
+        body { background-color: var(--bg-app); color: var(--text-main); transition: 0.3s; font-family: sans-serif; }
+        .app-screen { background-color: var(--bg-card); border: 1px solid var(--border); }
+        .hidden { display: none; }
+        
+        /* Estilo dos Inputs conforme o protótipo */
+        input, select, textarea {
+            background-color: rgba(0,0,0,0.05);
+            border: 1px solid var(--border);
+            color: var(--text-main);
+        }
+        .dark-mode input, .dark-mode select, .dark-mode textarea {
+            background-color: rgba(255,255,255,0.05);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-4 dark-mode" id="body-tag">
+
+    <div class="fixed top-1/2 -translate-y-1/2 left-[calc(50%+220px)] flex flex-col gap-4">
+        <button onclick="setTheme('light')" class="w-12 h-10 bg-slate-300 rounded-md flex items-center justify-center text-slate-700">
+            <i class="fas fa-moon"></i>
+        </button>
+        <button onclick="setTheme('dark')" class="w-12 h-10 bg-orange-500 rounded-md flex items-center justify-center text-white border-2 border-white">
+            <i class="fas fa-sun"></i>
+        </button>
+    </div>
+
+    <div id="app-container" class="w-[360px] h-[700px] app-screen shadow-2xl relative overflow-hidden flex flex-col p-6">
+        
+        <section id="screen-1" class="screen flex flex-col items-center justify-center h-full text-center space-y-4">
+            <div class="w-16 h-16 border-2 border-slate-400 rounded-xl flex items-center justify-center mb-4">
+                <i class="fas fa-hourglass-half text-2xl"></i> </div>
+            <h1 class="text-xl font-bold">Focus Loop</h1>
+            <p class="text-xs opacity-70 px-6">Concentre-se melhor, estude com foco e acompanhe seu progresso.</p>
+            <div class="flex flex-col w-full gap-2 pt-8">
+                <button onclick="nextScreen(2)" class="bg-slate-500 text-white py-2 rounded text-sm">Começar</button>
+                <button class="text-xs opacity-50">Mais tarde</button>
+            </div>
+        </section>
+
+        <section id="screen-2" class="screen hidden flex flex-col h-full">
+            <button onclick="nextScreen(1)" class="text-xs opacity-50 self-start mb-4">< Voltar</button>
+            <h2 class="text-lg font-bold">Crie sua conta</h2>
+            <p class="text-[10px] opacity-60 mb-6">Informe algumas informações para começar.</p>
+            
+            <div class="space-y-4">
+                <div>
+                    <label class="text-[10px] block mb-1">Nome</label>
+                    <input type="text" placeholder="Seu nome completo" class="w-full p-3 rounded text-xs outline-none">
+                </div>
+                <div>
+                    <label class="text-[10px] block mb-1">Email</label>
+                    <input type="email" placeholder="seu@email.com" class="w-full p-3 rounded text-xs outline-none">
+                </div>
+                <div>
+                    <label class="text-[10px] block mb-1">Senha</label>
+                    <input type="password" placeholder="Escolha uma senha" class="w-full p-3 rounded text-xs outline-none">
+                </div>
+                <div class="flex gap-2 pt-4">
+                    <button onclick="nextScreen(3)" class="bg-slate-500 text-white flex-1 py-2 rounded text-sm">Continuar</button>
+                    <button onclick="nextScreen(1)" class="border border-slate-500 flex-1 py-2 rounded text-sm">Cancelar</button>
+                </div>
+            </div>
+        </section>
+
+        <section id="screen-3" class="screen hidden flex flex-col h-full overflow-y-auto">
+            <button onclick="nextScreen(2)" class="text-xs opacity-50 self-start mb-4">< Voltar</button>
+            <h2 class="text-lg font-bold">Preferências & Objetivos</h2>
+            <p class="text-[10px] opacity-60 mb-6">Responda rapidamente — formato em lista para facilitar.</p>
+            
+            <div class="space-y-4">
+                <label class="text-[10px] block font-bold uppercase">Qual é o seu papel?</label>
+                <select class="w-full p-3 rounded text-xs"><option>Estudante</option></select>
+
+                <label class="text-[10px] block font-bold uppercase">Quantas horas você estuda por dia (média)?</label>
+                <input type="text" placeholder="Ex: 3" class="w-full p-3 rounded text-xs">
+
+                <label class="text-[10px] block font-bold uppercase">Quais são suas matérias com mais foco?</label>
+                <input type="text" placeholder="Ex: Matemática, Física" class="w-full p-3 rounded text-xs">
+
+                <label class="text-[10px] block font-bold uppercase">Quais são seus objetivos principais?</label>
+                <textarea class="w-full p-3 rounded text-xs h-20" placeholder="Ex: Passar no vestibular..."></textarea>
+
+                <div class="flex gap-2 pt-4">
+                    <button onclick="nextScreen(4)" class="bg-slate-500 text-white flex-1 py-2 rounded text-sm">Salvar & ir para o app</button>
+                    <button onclick="nextScreen(1)" class="border border-slate-500 flex-1 py-2 rounded text-sm">Cancelar</button>
+                </div>
+            </div>
+        </section>
+
+        <section id="screen-4" class="screen hidden flex flex-col h-full">
+            <div class="flex justify-between items-center mb-6">
+                <i class="fas fa-bars opacity-50"></i>
+                <div class="text-right">
+                    <p class="text-[10px] font-bold">Olá, Rafael 👋</p>
+                    <p class="text-[8px] opacity-50">Bem-vindo ao Focus Loop</p>
+                </div>
+            </div>
+
+            <div class="bg-black/10 p-4 rounded mb-6">
+                <h3 class="text-xs font-bold mb-1">Resumo do dia</h3>
+                <p class="text-[9px] opacity-70">Você tem 0 tarefas pendentes. Meta de estudo: 3h/dia.</p>
+            </div>
+
+            <h4 class="text-[10px] font-bold mb-3 uppercase">Ações rápidas</h4>
+            <div class="grid grid-cols-3 gap-2 mb-auto">
+                <button class="bg-slate-800 text-white py-4 rounded text-[9px]">Tarefas</button>
+                <button class="bg-slate-800 text-white py-4 rounded text-[9px]">Rotina</button>
+                <button class="bg-slate-800 text-white py-4 rounded text-[9px]">Produtiv.</button>
+            </div>
+
+            <div class="flex justify-around border-t border-slate-700 pt-4 mt-4">
+                <div class="text-center"><p class="text-[10px] font-bold">Home</p></div>
+                <div class="text-center opacity-40"><p class="text-[10px]">Pesquisar</p></div>
+                <div class="text-center opacity-40"><p class="text-[10px]">Perfil</p></div>
+            </div>
+        </section>
+
+        <div class="absolute bottom-6 right-6 w-8 h-6 bg-orange-500 rounded flex items-center justify-center text-white text-[10px]">
+            <i class="fas fa-moon"></i>
+        </div>
+
+    </div>
+
+    <script>
+        // Lógica de Navegação
+        function nextScreen(num) {
+            document.querySelectorAll('.screen').forEach(s => s.classList.add('hidden'));
+            document.getElementById('screen-' + num).classList.remove('hidden');
+        }
+
+        // Lógica de Tema
+        function setTheme(mode) {
+            const body = document.getElementById('body-tag');
+            if(mode === 'light') {
+                body.classList.remove('dark-mode');
+            } else {
+                body.classList.add('dark-mode');
+            }
+        }
+    </script>
+</body>
+</html>
